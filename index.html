@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Oyono's Kitchen | Malabo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        gold: '#c5a059',
+                        dark: '#0b0b0b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .hero-gradient {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('/assets/2151949251.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .whatsapp-popup {
+            display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .whatsapp-popup.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .menu-category {
+            display: none;
+        }
+        .menu-category.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Estilos para el Modal */
+        #modal-platos {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #modal-platos.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-white text-dark font-sans overflow-x-hidden">
+
+    <!-- Navegación -->
+
+   <!-- Top Bar (Información y Redes) -->
+<div class="w-full bg-neutral-900 text-white/80 py-2.5 px-6 border-b border-white/5 hidden md:block relative z-[110]" id="top-bar">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-medium tracking-widest uppercase">
+        <!-- Contacto e Info -->
+        <div class="flex gap-8 items-center">
+            <span class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                Malabo, Guinea Ecuatorial
+            </span>
+            <a href="https://maps.google.com/?q=Restaurante+Oyono+Malabo" target="_blank" class="flex items-center gap-1.5 text-amber-500 hover:text-white transition-all font-bold group">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M18 8L22 12L18 16"/><path d="M2 12H22"/></svg>
+                CÓMO LLEGAR
+            </a>
+            <a href="tel:+240222270242" class="flex items-center gap-2 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                +240 222 270 242
+            </a>
+        </div>
+
+        <!-- Redes Sociales -->
+        <div class="flex gap-6 items-center">
+            <a href="https://instagram.com/oyono_restaurante" target="_blank" class="hover:text-amber-500 transition-colors" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+            <a href="https://facebook.com/oyonorestaurante" target="_blank" class="hover:text-amber-500 transition-colors" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://wa.me/240222270242?text=Hola,%20me%20gustaría%20hacer%20una%20reserva%20en%20Oyono" target="_blank" class="hover:text-amber-500 transition-colors" aria-label="WhatsApp">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Navegación Principal -->
+<nav class="fixed top-0 md:top-[37px] w-full z-[100] transition-all duration-300 bg-white border-b border-gray-100" id="main-nav">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center transition-all duration-300" id="nav-container">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 z-[110]">
+            <img id="nav-logo" class="h-10 md:h-12 w-auto object-contain transition-all duration-300" src="./assets/logo.png" alt="Oyono Logo" onerror="this.src='https://placehold.co/120x60/000/fff?text=OYONO'">
+        </a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex gap-10 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 text-neutral-800">
+            <a href="#nosotros" class="nav-link-hover">Sobre Oyono</a>
+            <a href="#servicios" class="nav-link-hover">Servicios</a>
+            <a href="#platos" class="nav-link-hover">Platos Estrella</a>
+            <a href="#carta" class="nav-link-hover">Carta Digital</a>
+            <a href="#mapa" class="nav-link-hover">Ubicación</a>
+        </div>
+
+        <!-- Acciones -->
+        <div class="flex items-center gap-6">
+            <a href="tel:+240222270242" id="nav-cta" class="hidden lg:inline-block border border-neutral-800 hover:border-amber-500 hover:bg-amber-500 text-neutral-800 hover:text-white px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">
+                Reserva Online
+            </a>
+            
+            <!-- Botón Hamburguesa -->
+            <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-1.5 z-[110] group p-2" aria-label="Menú">
+                <span class="w-8 h-0.5 bg-black transition-all duration-300 burguer-line" id="line1"></span>
+                <span class="w-8 h-0.5 bg-black transition-all duration-300 burguer-line" id="line2"></span>
+                <span class="w-5 h-0.5 bg-black transition-all duration-300 self-end burguer-line" id="line3"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Menú Móvil Fullscreen -->
+    <div id="mobile-menu" class="fixed inset-0 bg-neutral-950 opacity-0 pointer-events-none transition-all duration-500 z-[105] flex flex-col justify-center items-center text-center">
+        <div class="relative flex flex-col items-center gap-8 translate-y-10 transition-transform duration-500" id="mobile-links-container">
+            <a href="#nosotros" class="mobile-link text-2xl font-light tracking-[0.3em] uppercase text-white hover:text-amber-500">Nosotros</a>
+            <a href="#servicios" class="mobile-link text-2xl font-light tracking-[0.3em] uppercase text-white hover:text-amber-500">Servicios</a>
+            <a href="#platos" class="mobile-link text-2xl font-light tracking-[0.3em] uppercase text-white hover:text-amber-500">Platos</a>
+            <a href="#carta" class="mobile-link text-2xl font-light tracking-[0.3em] uppercase text-white hover:text-amber-500">La Carta</a>
+            <a href="#mapa" class="mobile-link text-2xl font-light tracking-[0.3em] uppercase text-white hover:text-amber-500">Contacto</a>
+            <div class="h-px w-12 bg-amber-500/50 my-4"></div>
+            <div class="text-white/50 text-[10px] tracking-widest uppercase flex flex-col gap-2">
+                <span>Malabo, Guinea Ecuatorial</span>
+                <a href="tel:+240222270242" class="text-amber-500 font-bold text-sm tracking-[0.2em]">+240 222 270 242</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* El nav principal se posiciona debajo del top bar en desktop */
+    #main-nav {
+        transform: translateY(0);
+    }
+
+    /* Estado cuando se hace scroll: El top bar desaparece y el nav sube a la cima */
+    .nav-scrolled {
+        top: 0 !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    
+    .nav-scrolled #nav-container {
+        height: 70px !important;
+    }
+
+    /* Lógica del Menú Móvil */
+    #mobile-menu.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    #mobile-menu.active #mobile-links-container {
+        transform: translateY(0);
+    }
+
+    /* Botón hamburguesa (Blanco cuando el menú oscuro está activo, negro si no) */
+    .menu-open .burguer-line { 
+        background-color: white !important; 
+    }
+    
+    .menu-open #line1 { transform: translateY(8px) rotate(45deg); }
+    .menu-open #line2 { opacity: 0; }
+    .menu-open #line3 { width: 32px; transform: translateY(-8px) rotate(-45deg); }
+
+    /* Hover Links Desktop */
+    .nav-link-hover { position: relative; }
+    .nav-link-hover::after {
+        content: ''; position: absolute; bottom: -4px; left: 0; width: 0;
+        height: 2px; background: #f59e0b; transition: width 0.3s;
+    }
+    .nav-link-hover:hover::after { width: 100%; }
+
+    body.menu-active { overflow: hidden; }
+    
+    /* Para suavizar el salto cuando el top bar desaparece */
+    body { padding-top: 0; }
+</style>
+
+<script>
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const nav = document.getElementById('main-nav');
+    const topBar = document.getElementById('top-bar');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    // Toggle Menú
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        menuBtn.classList.toggle('menu-open');
+        document.body.classList.toggle('menu-active');
+    });
+
+    // Cerrar al clickear links
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            menuBtn.classList.remove('menu-open');
+            document.body.classList.remove('menu-active');
+        });
+    });
+
+    // Scroll Logic: En desktop el nav sube al esconderse el top bar
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+            nav.classList.add('nav-scrolled');
+        } else {
+            nav.classList.remove('nav-scrolled');
+        }
+    });
+</script>
+
+    <!-- Hero Section -->
+    <header class="h-screen flex items-center justify-center text-center px-4 hero-gradient">
+        <div class="max-w-4xl">
+            <p class="text-gold uppercase tracking-[0.5em] mb-4 text-sm font-semibold">Guinea Ecuatorial</p>
+            <h1 class="text-white text-5xl md:text-8xl font-serif mb-6 italic">Bienvenido a <span class="not-italic block text-gold mt-2">Oyono's Kitchen</span></h1>
+            <p class="text-gray-300 text-lg md:text-xl font-light mb-10 tracking-widest uppercase">Sabor, Tradición y Elegancia en la Plaza de Ela Nguema</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#carta" class="bg-gold text-white px-10 py-4 font-bold uppercase text-xs tracking-widest hover:bg-white hover:text-dark transition-all">Explorar Menú</a>
+                <a href="#mapa" class="bg-transparent border-2 border-white text-white px-10 py-4 font-bold uppercase text-xs tracking-widest hover:bg-white hover:text-dark transition-all">Cómo Llegar</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sobre Oyono -->
+    <section id="nosotros" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <img src="./assets/hero2.png" alt="Chef Oyono" class="rounded-sm shadow-2xl">
+                <div class="absolute -bottom-8 -right-8 bg-gold p-8 hidden md:block">
+                    <p class="text-white font-serif text-2xl italic">"Cocinamos con alma"</p>
+                </div>
+            </div>
+            <div>
+                <span class="text-gold font-bold uppercase tracking-widest text-sm">Nuestra Historia</span>
+                <h2 class="text-4xl md:text-5xl font-serif mt-4 mb-6">Sobre Oyono's Kitchen</h2>
+                <div class="w-20 h-1 bg-gold mb-8"></div>
+                <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                    Nacidos en el corazón de Malabo, nuestra cocina es un homenaje a la biodiversidad de Guinea Ecuatorial. El Chef Oyono selecciona personalmente cada producto para garantizar una frescura inigualable.
+                </p>
+                <div class="flex items-center gap-4">
+                    <img src="./assets/ceo.png" class="w-16 h-16 rounded-full object-cover border-2 border-gold" alt="Chef">
+                    <div>
+                        <p class="font-bold uppercase text-xs tracking-wider">Kelly Oyono</p>
+                        <p class="text-gold text-sm italic">Fundadora de Oyono's Kitchen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Servicios -->
+    <section id="servicios" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-serif mb-4">Nuestros Servicios</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-6"></div>
+                <p class="text-gray-500 max-w-2xl mx-auto">Ofrecemos soluciones gastronómicas integrales para cada ocasión, manteniendo siempre el sello de calidad Oyono.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Servicio 1 -->
+                <div class="bg-white p-10 text-center shadow-sm hover:shadow-xl transition-all group">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gold transition-colors">
+                        <i class="fas fa-utensils text-2xl text-gold group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-4">Catering Premium</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">Llevamos el sabor de nuestra cocina a sus eventos privados o corporativos con un servicio impecable.</p>
+                    <button onclick="sendWA('Hola, solicito presupuesto para un Catering')" class="text-gold font-bold text-xs uppercase tracking-widest hover:underline">Consultar</button>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="bg-white p-10 text-center shadow-sm hover:shadow-xl transition-all group border-t-4 border-gold">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gold transition-colors">
+                        <i class="fas fa-glass-cheers text-2xl text-gold group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-4">Eventos Especiales</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">Bautizos, cumpleaños y celebraciones. Disponemos de espacios y menús adaptados a sus necesidades.</p>
+                    <button onclick="sendWA('Hola, quiero información para celebrar un evento')" class="text-gold font-bold text-xs uppercase tracking-widest hover:underline">Reservar fecha</button>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="bg-white p-10 text-center shadow-sm hover:shadow-xl transition-all group">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gold transition-colors">
+                        <i class="fas fa-motorcycle text-2xl text-gold group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl mb-4">Delivery Elite</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">Disfrute de nuestra carta en la comodidad de su hogar u oficina con nuestro servicio de entrega rápida.</p>
+                    <button onclick="sendWA('Hola, quiero hacer un pedido a domicilio')" class="text-gold font-bold text-xs uppercase tracking-widest hover:underline">Pedir ahora</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platos Estrella -->
+    <section id="platos" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-serif mb-4">Platos Estrella de la Casa</h2>
+                <p class="text-gold uppercase tracking-widest text-sm">Lo más solicitado por nuestros comensales</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="relative group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-6 text-center">
+                        <h4 class="text-2xl font-serif mb-2">Carpaccio de Atún de Annobón</h4>
+                        <p class="text-sm italic">Marinado en cítricos locales y pimienta de Guinea.</p>
+                    </div>
+                </div>
+                <div class="relative group overflow-hidden">
+                    <img src="https://i0.wp.com/www.brasasysabores.com/wp-content/uploads/2017/07/Langosta-a-la-parrilla-para-catering-Madrid.jpg?fit=849%2C566&ssl=1" alt="Langosta" class="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-6 text-center">
+                        <h4 class="text-2xl font-serif mb-2">Langosta al Carbón</h4>
+                        <p class="text-sm italic">Con mantequilla de ajo artesanal y tubérculos fritos.</p>
+                    </div>
+                </div>
+                <div class="relative group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Filete" class="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-white p-6 text-center">
+                        <h4 class="text-2xl font-serif mb-2">Filete de Ternera Premium</h4>
+                        <p class="text-sm italic">Salsa de vino tinto y puré de malanga trufado.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <button onclick="toggleModal(true)" class="border-2 border-dark px-12 py-4 font-bold uppercase text-xs tracking-widest hover:bg-dark hover:text-white transition-all">Ver más especialidades</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Más Platos -->
+    <div id="modal-platos" onclick="if(event.target == this) toggleModal(false)">
+        <div class="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-sm relative">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-6 text-3xl text-dark z-10">&times;</button>
+            <div class="p-8 md:p-12">
+                <h3 class="text-3xl font-serif mb-8 text-center">Especialidades Adicionales</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="flex gap-4 items-center border-b border-gray-100 pb-4">
+                        <img src="https://images.unsplash.com/photo-1512058560366-cd242d59c5bb?auto=format&fit=crop&w=200&q=80" class="w-24 h-24 object-cover rounded-sm" alt="Plato">
+                        <div>
+                            <h5 class="font-bold font-serif">Arroz Negro con Sepia</h5>
+                            <p class="text-xs text-gray-500">Con alioli de azafrán y crujiente de tinta.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-center border-b border-gray-100 pb-4">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=200&q=80" class="w-24 h-24 object-cover rounded-sm" alt="Plato">
+                        <div>
+                            <h5 class="font-bold font-serif">Cebiche de Pargo Tropical</h5>
+                            <p class="text-xs text-gray-500">Leche de tigre con mango y coco fresco.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-center border-b border-gray-100 pb-4">
+                        <img src="https://images.unsplash.com/photo-1546241072-48010ad28c2c?auto=format&fit=crop&w=200&q=80" class="w-24 h-24 object-cover rounded-sm" alt="Plato">
+                        <div>
+                            <h5 class="font-bold font-serif">Pulpo a la Brasa de Oyono</h5>
+                            <p class="text-xs text-gray-500">Sobre crema de batata asada y pimentón.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-center border-b border-gray-100 pb-4">
+                        <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=200&q=80" class="w-24 h-24 object-cover rounded-sm" alt="Plato">
+                        <div>
+                            <h5 class="font-bold font-serif">Pollo de Corral al Estilo Real</h5>
+                            <p class="text-xs text-gray-500">Relleno de frutos secos y salsa de trufa negra.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10 text-center">
+                    <button onclick="sendWA('Hola, quiero reservar una mesa para probar sus especialidades')" class="bg-gold text-white px-10 py-3 font-bold uppercase text-xs tracking-widest">Reservar ahora</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carta Digital Dinámica -->
+   <!-- Carta Digital Dinámica Ampliada -->
+<section id="carta" class="py-24 bg-dark text-white">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <span class="text-gold font-bold uppercase tracking-[0.3em] text-xs">Experiencia Gastronómica</span>
+            <h2 class="text-5xl font-serif mt-4">Nuestra Carta</h2>
+            <div class="w-20 h-1 bg-gold mx-auto mt-6 mb-10"></div>
+            
+            <!-- Filtros del Menú -->
+            <div class="flex flex-wrap justify-center gap-4 mb-16">
+                <button onclick="filterMenu('entrantes')" class="filter-btn active bg-gold text-white px-6 py-2 uppercase text-[10px] font-bold tracking-widest border border-gold transition-all" id="btn-entrantes">Entrantes</button>
+                <button onclick="filterMenu('principales')" class="filter-btn bg-transparent text-white px-6 py-2 uppercase text-[10px] font-bold tracking-widest border border-white/20 hover:border-gold transition-all" id="btn-principales">Platos Principales</button>
+                <button onclick="filterMenu('especialidades')" class="filter-btn bg-transparent text-white px-6 py-2 uppercase text-[10px] font-bold tracking-widest border border-white/20 hover:border-gold transition-all" id="btn-especialidades">Especialidades</button>
+            </div>
+        </div>
+
+        <!-- CATEGORÍA: ENTRANTES (7 Platos) -->
+        <div id="cat-entrantes" class="menu-category active space-y-10">
+            <!-- Item 1 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Croquetas de Pescado de Roca</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Bechamel cremosa con un toque de jengibre y coco.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">5.000 XAF</span>
+                    <button onclick="sendWA('Hola, me gustaría pedir las Croquetas de Pescado')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Carpaccio de Remolacha y Cabra</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Láminas finas con queso artesanal y nueces garrapiñadas.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">6.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Carpaccio de Remolacha')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Brochetas de Caracoles de Mar</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Al grill con chimichurri de hierbas africanas.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">7.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero las Brochetas de Caracoles')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Gambas al Ajillo Oyono</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Gambas de Kogo salteadas con aceite virgen y guindilla.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">9.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero las Gambas al Ajillo')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 5 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Tartar de Aguacate y Atún</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Atún rojo fresco picado a cuchillo con base de aguacate maduro.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">8.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Tartar de Atún')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 6 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Sopa de Marisco de la Bahía</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Caldo concentrado con pesca del día, calamares y almejas.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">7.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero la Sopa de Marisco')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 7 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Ensalada Tropical de Mango</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Mezclum de lechugas, mango fresco, anacardos y vinagreta de maracuyá.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">4.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero la Ensalada Tropical')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORÍA: PRINCIPALES (7 Platos) -->
+        <div id="cat-principales" class="menu-category space-y-10">
+            <!-- Item 1 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Lubina Salvaje al Papillote</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Cocinada en su jugo con verduras de temporada y hierba luisa.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">18.000 XAF</span>
+                    <button onclick="sendWA('Hola, me gustaría pedir la Lubina')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Entrecot de Ternera al Grill</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">300g de carne premium con guarnición de patatas rústicas.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">15.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Entrecot')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Arroz Marinero Caldoso</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Con bogavante, mejillones y el toque picante de la casa.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">22.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Arroz Marinero')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Pollo al Curry de Bioko</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Láminas de pollo en salsa cremosa de coco y curry amarillo artesanal.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">11.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Pollo al Curry')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 5 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Salmón Glaseado con Miel</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Acompañado de espárragos trigueros y puré de zanahoria.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">16.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Salmón Glaseado')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 6 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Penne a la Boloñesa Tradicional</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Pasta italiana con ragú de carne de larga cocción y parmesano.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">9.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero la Pasta Boloñesa')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 7 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Costillas de Cerdo BBQ</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Asadas lentamente con salsa barbacoa casera y mazorca de maíz.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">13.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero las Costillas BBQ')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORÍA: ESPECIALIDADES (7 Platos) -->
+        <div id="cat-especialidades" class="menu-category space-y-10">
+            <!-- Item 1 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Bambucha "Especial Oyono"</h4>
+                    <p class="text-gold text-[10px] uppercase font-bold tracking-widest mb-1">Firma de la Casa</p>
+                    <p class="text-gray-400 text-sm font-light">Hojas de yuca procesadas con técnica secreta y marisco selecto.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">25.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero la Bambucha Especial')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Pepesup de Pescado de Annobón</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Caldo tradicional picante con pescado fresco y especias de la isla.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">12.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Pepesup')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Salsa de Cacahuete con Pollo</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Guiso tradicional de cacahuete natural con pollo de corral y plátano hervido.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">10.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero la Salsa de Cacahuete')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Langosta a la Brasa de Malabo</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Pieza entera abierta a la mitad con mantequilla de ajo y limón.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">35.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero la Langosta')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 5 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Djom de Pescado en Hoja</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Filete de pescado marinado asado en hoja de plátano con aromáticos.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">14.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Djom de Pescado')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 6 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Pulpo a la Parrilla con Malanga</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Tentáculo de pulpo crujiente sobre parmentier de malanga trufada.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">20.000 XAF</span>
+                    <button onclick="sendWA('Hola, quiero el Pulpo con Malanga')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+            <!-- Item 7 -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 group border-b border-white/5 pb-6">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold group-hover:text-gold transition-colors italic font-serif">Abon de Marisco</h4>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Tradición bubi: Masa de yuca y coco cocida lentamente con variado de marisco.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span class="text-gold font-bold text-lg">18.500 XAF</span>
+                    <button onclick="sendWA('Hola, quiero probar el Abon de Marisco')" class="bg-white/5 hover:bg-gold text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all">Pedir</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12 italic text-gray-400 text-sm">
+            * Todos nuestros precios incluyen impuestos. Disponibilidad sujeta a mercado diario.
+        </div>
+    </div>
+</section>
+
+    <!-- Mapa y Contacto -->
+    <section id="mapa" class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
+            <div class="space-y-8">
+                <div>
+                    <h2 class="text-4xl font-serif mb-4">Encuéntranos</h2>
+                    <p class="text-gray-600 mb-6">Estamos ubicados frente a la Plaza de Ela Nguema, un punto de referencia clave en Malabo.</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gray-100 flex items-center justify-center rounded-full text-gold shrink-0">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold">Dirección Exacta</p>
+                            <p class="text-gray-500">Plaza de Ela Nguema (Frente al monumento), Malabo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4 cursor-pointer" onclick="window.location.href='tel:+240222270242'">
+                        <div class="w-12 h-12 bg-gray-100 flex items-center justify-center rounded-full text-gold shrink-0">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold">Teléfono de Reservas</p>
+                            <p class="text-gray-500 font-bold text-lg hover:text-gold">+240 222 27 02 42</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-gold text-white rounded-sm">
+                    <h4 class="font-bold uppercase tracking-widest text-sm mb-4 text-center">Horario de Cocina</h4>
+                    <div class="flex justify-between border-b border-white/20 py-2 text-sm">
+                        <span>Lunes - Jueves</span>
+                        <span>12:00 - 23:00</span>
+                    </div>
+                    <div class="flex justify-between py-2 text-sm">
+                        <span>Viernes - Domingo</span>
+                        <span>12:00 - 01:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="h-[500px] w-full bg-gray-200 rounded-sm shadow-xl relative overflow-hidden">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.8142371983013!2d8.7752!3d3.7495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1066867375685555%3A0xc3f5898870198f7e!2sPlaza%20Ela%20Nguema!5e0!3m2!1ses!2sgq!4v1700000000000!5m2!1ses!2sgq" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-20 pb-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="font-serif text-3xl mb-8 tracking-[0.2em] uppercase">Oyono's Kitchen</h2>
+            <p class="text-gray-500 text-xs tracking-widest uppercase">&copy; 2026 Oyono's Kitchen. Malabo, Guinea Ecuatorial. DESARROLLADO POR EKODEV COMPANY</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Inteligente -->
+    <div class="fixed bottom-8 right-8 z-[100] flex flex-col items-end">
+        <div id="whatsapp-popup" class="whatsapp-popup w-80 bg-white rounded-xl mb-4 overflow-hidden shadow-2xl border border-gray-100">
+            <div class="bg-gold p-4 text-white flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div>
+                    <p class="font-bold text-sm">Asistente Oyono</p>
+                    <p class="text-[10px] opacity-80 uppercase tracking-widest">En línea</p>
+                </div>
+                <button onclick="toggleWhatsApp()" class="ml-auto text-white/50 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 bg-gray-50">
+                <div class="space-y-2">
+                    <button onclick="sendWA('Hola, me gustaría reservar una mesa.')" class="w-full text-left text-xs bg-white p-3 rounded-lg border border-gray-200 hover:border-gold hover:text-gold transition-all">Quiero reservar una mesa</button>
+                    <button onclick="sendWA('¿Me pueden indicar dónde están ubicados exactamente?')" class="w-full text-left text-xs bg-white p-3 rounded-lg border border-gray-200 hover:border-gold hover:text-gold transition-all">¿Dónde están ubicados?</button>
+                    <button onclick="sendWA('Hola, quiero hacer un pedido para domicilio.')" class="w-full text-left text-xs bg-white p-3 rounded-lg border border-gray-200 hover:border-gold hover:text-gold transition-all font-bold text-gold">Hacer un pedido (Delivery)</button>
+                    <button onclick="sendWA('Hola, necesito información para un servicio de Catering')" class="w-full text-left text-xs bg-white p-3 rounded-lg border border-gray-200 hover:border-gold hover:text-gold transition-all">Eventos y Catering</button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleWhatsApp()" class="w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 transition-transform">
+            <i class="fab fa-whatsapp"></i>
+        </button>
+    </div>
+
+    <script>
+        function filterMenu(category) {
+            document.querySelectorAll('.menu-category').forEach(cat => cat.classList.remove('active'));
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gold');
+                btn.classList.add('bg-transparent', 'border-white/20');
+            });
+            document.getElementById('cat-' + category).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + category);
+            activeBtn.classList.add('active', 'bg-gold');
+            activeBtn.classList.remove('bg-transparent', 'border-white/20');
+        }
+
+        function toggleWhatsApp() {
+            document.getElementById('whatsapp-popup').classList.toggle('active');
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('modal-platos');
+            if(show) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function sendWA(message) {
+            const phone = "240222270242";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+            const popup = document.getElementById('whatsapp-popup');
+            if(popup.classList.contains('active')) popup.classList.remove('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const container = document.querySelector('.fixed.bottom-8.right-8');
+            const popup = document.getElementById('whatsapp-popup');
+            if (popup && !container.contains(event.target) && popup.classList.contains('active')) {
+                popup.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
